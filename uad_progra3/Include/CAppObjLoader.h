@@ -14,8 +14,8 @@
 
 // Class that inherits from Base class CApp
 // Base class CApp has members for: CGameWindow, CGameMenu, and COpenGLRenderer, which we can access through the public/protected methods
-class CAppObjLoader : public CApp
-{
+class CAppObjLoader : public CApp {
+
 private:
 	// Pointer to an object of type C3DModel
 	C3DModel *m_p3DModel;
@@ -32,15 +32,32 @@ private:
 	//  Object rotation speed (degrees per second)
 	double m_rotationSpeed;
 
+	// Load/unload 3D model
+	bool load3DModel(const char * const filename);
+
+	//
+	void unloadCurrent3DModel();
+
+	// Move camera away/closer
+	void moveCamera(float direction);
+
+
 protected:
+
 	// Method to initialize the menu
 	bool initializeMenu();
 
 public:
+
 	// Constructors and destructor
 	CAppObjLoader();
+
+	//
 	CAppObjLoader(int window_width, int window_height);
+	
+	//
 	~CAppObjLoader();
+
 
 	// Inherited methods from CApp
 	// ---------------------------
@@ -69,15 +86,6 @@ public:
 	// This derived class only uses F2/F3
 	void onF2(int mods);
 	void onF3(int mods);
-
-private:
-
-	// Load/unload 3D model
-	bool load3DModel(const char * const filename);
-	void unloadCurrent3DModel();
-
-	// Move camera away/closer
-	void moveCamera(float direction);
 
 };
 

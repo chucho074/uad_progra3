@@ -18,8 +18,8 @@
 // BASE CLASS FOR ALL 'APPLICATIONS'
 // The CApp* classes derive from this class and are used in main( )
 // ================================================================
-class CApp
-{
+class CApp {
+
 private:
 	CGameWindow     *m_Window;         // Pointer to our CGameWindow object
 	CGameMenu       *m_Menu;           // Pointer to our CMenu object
@@ -32,6 +32,7 @@ protected:
 	CGameWindow     * const getGameWindow()     const { return m_Window; }
 	CGameMenu       * const getMenu()           const { return m_Menu; }
 	COpenGLRenderer * const getOpenGLRenderer() const { return m_OpenGLRenderer; }
+	virtual bool initializeMenu() = 0;
 
 public:
 	// Constructors and VIRTUAL destructor
@@ -77,8 +78,6 @@ public:
 	virtual void run()    = 0;
 	virtual void render() = 0;
 
-protected:
-	virtual bool initializeMenu() = 0;
 
 };
 

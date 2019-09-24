@@ -12,6 +12,7 @@ using namespace std;
 #include "../Include/C3DModel.h"
 #include "../Include/C3DModel_Obj.h"
 #include "../Include/CTextureLoader.h"
+#include "../Include/C3DModelFbx.h"
 
 /* */
 C3DModel::C3DModel()
@@ -153,7 +154,13 @@ C3DModel* C3DModel::load(const char * const filename, COpenGLRenderer * const sh
 		}
 		else if (!fileExtension.compare("fbx"))
 		{
-			cout << "FBX file format reading not implemented" << endl;
+			cout << "Loading FBX model..." << endl;
+			newModel = new C3DModelFbx();
+
+			if (!newModel->loadFromFile(filename))
+			{
+				newModel->reset();
+			}
 		}
 		
 		// If model geometry could be loaded, save it to graphics card
@@ -161,7 +168,7 @@ C3DModel* C3DModel::load(const char * const filename, COpenGLRenderer * const sh
 		{
 			unsigned int newModelShaderId = 0;
 			unsigned int newTextureID = 0;
-			unsigned int newModelVertexArrayObject = 0;
+			unsigned int newModelVertexArrayObject = NULL;
 			bool loadedToGraphicsCard = false;
 
 			// By default, shaders to be loaded are for non-textured objects, but if the model has a valid texture filename and UVs, 

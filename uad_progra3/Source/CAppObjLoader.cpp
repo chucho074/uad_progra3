@@ -1,7 +1,5 @@
 #include "../stdafx.h"
-
 #include "windows.h"
-
 #include <iostream>
 #include <vector>
 #include <string>
@@ -33,8 +31,7 @@ CAppObjLoader::CAppObjLoader(int window_width, int window_height) :
 }
 
 /* */
-CAppObjLoader::~CAppObjLoader()
-{
+CAppObjLoader::~CAppObjLoader() {
 	cout << "Destructor: ~CAppObjLoader()" << endl;
 	unloadCurrent3DModel();
 }

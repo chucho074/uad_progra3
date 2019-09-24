@@ -166,12 +166,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\C3DModel.h" />
+    <ClInclude Include="Include\C3DModelFbx.h" />
     <ClInclude Include="Include\C3DModel_Obj.h" />
     <ClInclude Include="Include\CApp.h" />
+    <ClInclude Include="Include\CAppCube.h" />
     <ClInclude Include="Include\CAppCubeTest.h" />
     <ClInclude Include="Include\CAppEmpty.h" />
+    <ClInclude Include="Include\CAppFbxLoader.h" />
     <ClInclude Include="Include\CAppGeometricFigures.h" />
     <ClInclude Include="Include\CAppObjLoader.h" />
+    <ClInclude Include="Include\CAppTriangle.h" />
     <ClInclude Include="Include\CBinaryTree.h" />
     <ClInclude Include="Include\CBinaryTreeNode.h" />
     <ClInclude Include="Include\CCircularDoubleLinkedList.h" />
@@ -200,13 +204,17 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Include\CAppCube.cpp" />
     <ClCompile Include="Source\C3DModel.cpp" />
+    <ClCompile Include="Source\C3DModelFbx.cpp" />
     <ClCompile Include="Source\C3DModel_Obj.cpp" />
     <ClCompile Include="Source\CApp.cpp" />
     <ClCompile Include="Source\CAppCubeTest.cpp" />
     <ClCompile Include="Source\CAppEmpty.cpp" />
+    <ClCompile Include="Source\CAppFbxLoader.cpp" />
     <ClCompile Include="Source\CAppGeometricFigures.cpp" />
     <ClCompile Include="Source\CAppObjLoader.cpp" />
+    <ClCompile Include="Source\CAppTriangle.cpp" />
     <ClCompile Include="Source\CCircularDoubleLinkedList.cpp" />
     <ClCompile Include="Source\CCircularDoubleLinkedListNode.cpp" />
     <ClCompile Include="Source\CGameMenu.cpp" />

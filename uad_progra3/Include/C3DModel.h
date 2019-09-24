@@ -37,7 +37,7 @@ protected:
 	float *m_normalsRaw;                                              // Dynamically-allocated array of normals (raw float values)
 	float *m_uvCoordsRaw;                                             // Dynamically-allocated array of UV coords (raw float values)
 
-	int m_numVertices, m_numNormals, m_numUVCoords, m_numFaces;       // Total number of vertices, normals, UV coords, and faces in this model
+	int m_numVertices, m_numNormals, m_numUVCoords, m_numFaces, m_numUVIndex;       // Total number of vertices, normals, UV coords, and faces in this model
 
 	bool m_modelGeometryLoaded;                                               // Does this C3DModel object contain valid data? (loaded from file)
 	bool m_modelHasNormals;											  // Flag to determine if this model has normals

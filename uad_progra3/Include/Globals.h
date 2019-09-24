@@ -9,6 +9,10 @@
 #define CAPP_PROGRA3_OBJ_LOADER_WINDOW_TITLE    ".OBJ Loader app"
 #define CAPP_PROGRA3_GEOMETRIC_WINDOW_TITLE     "Geometric shapes app"
 #define CAPP_PROGRA3_HEXGRID_WINDOW_TITLE       "HexGrid app"
+#define CAPP_PROGRA3_CUBE						"Cube App"
+#define CAPP_PROGRA3_TRIANGLE					"Triangle App"
+#define CAPP_PROGRA3_FBX_LOADER_WINDOW_TITLE    ".FBX Loader app"
+
 
 // SHADER FILENAMES
 #define SHADER_PROGRAM_COLOR_CUBE               "COLOR_CUBE_SHADER"
