@@ -224,7 +224,7 @@ bool C3DModelFbx::parseFbxLine(std::string line, bool countOnly, int lineNumber,
 					double coord = 0;										//Donde se guardaran las coords
 					token = strtok_s(nextToken, ",", &nextToken2);			//Se crea otro token para poder separar todas las coords
 					if (id < m_numVertices) {								//Se le da un punto donde terminar al programa
-
+						
 						istringstream actual(token);						//Se quita todo lo no numerico y se convierte en valor numerico
 						actual >> coord;									//Se guarda en la coord
 						m_verticesRaw[id++] = coord;						//Se guarda la coord en la lista de coordenadas
@@ -239,7 +239,7 @@ bool C3DModelFbx::parseFbxLine(std::string line, bool countOnly, int lineNumber,
 
 					if (*nextToken2 == '\0' || *nextToken2 == ' ' || *nextToken2 == '\n' || *nextToken2 == NULL) {		//En caso de encontrar diferentes casos del archivo
 
-						getline(inFile, line);							//Leemos la linea siguiente
+						getline(inFile, line);								//Leemos la linea siguiente
 
 						if (line != "} ") {									//Cuando no sea el final de la lista
 
@@ -294,18 +294,15 @@ bool C3DModelFbx::parseFbxLine(std::string line, bool countOnly, int lineNumber,
 					double coord = 0;										//Donde se guardaran las coords
 					token = strtok_s(nextToken, ",", &nextToken2);			//Se crea otro token para poder separar todas las coords
 					if (id < m_numFaces) {									//Se le da un punto donde terminar al programa
-
 						istringstream actual(token);						//Se quita todo lo no numerico y se convierte en valor numerico
 						actual >> coord;									//Se guarda en la coord
+						if (coord < 0) {
+							coord = (coord * -1) + 1;
+						}
 						m_vertexIndices[id++] = coord;						//Se guarda la coord en la lista de coordenadas
 
 					}
 
-					else {
-
-						token = NULL;										//Corta el programa al no tener nada mas en el token
-
-					}
 
 					if (*nextToken2 == '\0' || *nextToken2 == ' ' || *nextToken2 == '\n' || *nextToken2 == NULL) {		//En caso de encontrar diferentes casos del archivo
 
@@ -338,8 +335,8 @@ bool C3DModelFbx::parseFbxLine(std::string line, bool countOnly, int lineNumber,
 
 
 
-		else if (0 == strcmp(token, "Normals:")) {		//Si es igual a normales
-			line = nextToken;		//Se guarda en la linea lo obtenido en el siguiente token
+		else if (0 == strcmp(token, "Normals:")) {							//Si es igual a normales
+			line = nextToken;												//Se guarda en la linea lo obtenido en el siguiente token
 			readingNormal = true;
 			token = strtok_s((char *)line.c_str(), "*", &nextToken);
 			line = token;
@@ -411,8 +408,8 @@ bool C3DModelFbx::parseFbxLine(std::string line, bool countOnly, int lineNumber,
 
 
 
-		else if (0 == strcmp(token, "UV:")) {		//Si es igual a UV
-			line = nextToken;		//Se guarda en la linea lo obtenido en el siguiente token
+		else if (0 == strcmp(token, "UV:")) {								//Si es igual a UV
+			line = nextToken;												//Se guarda en la linea lo obtenido en el siguiente token
 			readingUV = true;
 			token = strtok_s((char *)line.c_str(), "*", &nextToken);
 			line = token;
@@ -420,8 +417,8 @@ bool C3DModelFbx::parseFbxLine(std::string line, bool countOnly, int lineNumber,
 			istringstream actual(token);
 			actual >> m_numUVCoords;
 
-			m_currentUV = m_numUVCoords / 2;							//Creamos los triangulos
-			m_uvCoordsRaw = new float[m_numUVCoords];				//Guardamos el espacio para las coords
+			m_currentUV = m_numUVCoords / 2;								//Creamos los triangulos
+			m_uvCoordsRaw = new float[m_numUVCoords];						//Guardamos el espacio para las coords
 			unsigned int temp = 0;
 
 
@@ -438,11 +435,11 @@ bool C3DModelFbx::parseFbxLine(std::string line, bool countOnly, int lineNumber,
 
 					double coord = 0;										//Donde se guardaran las coords
 					token = strtok_s(nextToken, ",", &nextToken2);			//Se crea otro token para poder separar todas las coords
-					if (id < m_numUVCoords) {									//Se le da un punto donde terminar al programa
+					if (id < m_numUVCoords) {								//Se le da un punto donde terminar al programa
 
 						istringstream actual(token);						//Se quita todo lo no numerico y se convierte en valor numerico
 						actual >> coord;									//Se guarda en la coord
-						m_uvCoordsRaw[id++] = coord;							//Se guarda la coord en la lista de coordenadas
+						m_uvCoordsRaw[id++] = coord;						//Se guarda la coord en la lista de coordenadas
 
 					}
 
