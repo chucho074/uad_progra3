@@ -52,6 +52,12 @@ bool C3DModelFbx::loadFromFile(const char * const filename) {
 	// First pass is to count the number of vertices, normals, UVs, faces
 	readFileOk = readFbxFile(filename, true);
 
+	m_numVertices = m_currentVertex;
+	m_numNormals = m_currentNormal;
+	m_numUVCoords = m_currentUV;
+	m_numFaces = m_currentFace;
+
+
 	// Display count
 	cout << "Finished reading 3D model" << endl;
 	cout << "Vertices: " << m_numVertices << endl;
@@ -93,21 +99,21 @@ bool C3DModelFbx::loadFromFile(const char * const filename) {
 
 		// Allocate memory for the arrays
 
-		// C3DModel variables
-		m_verticesRaw = new float[m_numVertices * 3];
-		m_normalsRaw = new float[m_numNormals * 3];
-		m_uvCoordsRaw = new float[m_numUVCoords * 2];
-		m_vertexIndices = new unsigned short[m_numFaces * 3];
-		m_normalIndices = new unsigned short[m_numFaces * 3];
-		m_UVindices = new unsigned short[m_numFaces * 3];
-
-		// Zero-out indices arrays
-		memset(m_vertexIndices, 0, sizeof(unsigned short) * m_numFaces * 3);
-		memset(m_normalIndices, 0, sizeof(unsigned short) * m_numFaces * 3);
-		memset(m_UVindices, 0, sizeof(unsigned short) * m_numFaces * 3);
-		memset(m_verticesRaw, 0, sizeof(float) * m_numVertices * 3);
-		memset(m_normalsRaw, 0, sizeof(float) * m_numNormals * 3);
-		memset(m_uvCoordsRaw, 0, sizeof(float) * m_numUVCoords * 2);
+		//// C3DModel variables
+		//m_verticesRaw = new float[m_numVertices * 3];
+		//m_normalsRaw = new float[m_numNormals * 3];
+		//m_uvCoordsRaw = new float[m_numUVCoords * 2];
+		//m_vertexIndices = new unsigned short[m_numFaces * 3];
+		//m_normalIndices = new unsigned short[m_numFaces * 3];
+		//m_UVindices = new unsigned short[m_numFaces * 3];
+		//
+		//// Zero-out indices arrays
+		//memset(m_vertexIndices, 0, sizeof(unsigned short) * m_numFaces * 3);
+		//memset(m_normalIndices, 0, sizeof(unsigned short) * m_numFaces * 3);
+		//memset(m_UVindices, 0, sizeof(unsigned short) * m_numFaces * 3);
+		//memset(m_verticesRaw, 0, sizeof(float) * m_numVertices * 3);
+		//memset(m_normalsRaw, 0, sizeof(float) * m_numNormals * 3);
+		//memset(m_uvCoordsRaw, 0, sizeof(float) * m_numUVCoords * 2);
 
 		// Second pass is to read the data
 		readFileOk = readFbxFile(filename, false);
@@ -204,9 +210,9 @@ bool C3DModelFbx::parseFbxLine(std::string line, bool countOnly, int lineNumber,
 			readingVertex = true;											//Cambiamos la bandera
 			token = strtok_s((char *)line.c_str(), "*", &nextToken);		//Creamos el token para leer el dato despues de el "*"
 			istringstream actual(token);									//Eliminamos todo lo que no sea numero ("{")
-			actual >> m_numVertices;										//Guardamos el valor en el total
-			m_currentVertex = m_numVertices / 3;							//Creamos los triangulos
-			m_verticesRaw = new float[m_numVertices];						//Guardamos el espacio para las coords
+			actual >> m_currentVertex;										//Guardamos el valor en el total
+			m_numVertices = m_currentVertex / 3;							//Creamos los triangulos
+			m_verticesRaw = new float[m_currentVertex];						//Guardamos el espacio para las coords
 			unsigned int temp = 0;
 
 
@@ -218,16 +224,16 @@ bool C3DModelFbx::parseFbxLine(std::string line, bool countOnly, int lineNumber,
 			token = strtok_s((char *)line.c_str(), " ", &nextToken);		//Creamos otro Token para separar
 			if (0 == strcmp(token, "a:")) {									//Si encuentra "a:" (punto de inicio de las coords)
 
-				int id = 0;
+				int iden = 0;
 				while (token != NULL) {										//Mientras que haya algo en Token
 
 					double coord = 0;										//Donde se guardaran las coords
 					token = strtok_s(nextToken, ",", &nextToken2);			//Se crea otro token para poder separar todas las coords
-					if (id < m_numVertices) {								//Se le da un punto donde terminar al programa
+					if (iden < m_currentVertex) {								//Se le da un punto donde terminar al programa
 						
 						istringstream actual(token);						//Se quita todo lo no numerico y se convierte en valor numerico
 						actual >> coord;									//Se guarda en la coord
-						m_verticesRaw[id++] = coord;						//Se guarda la coord en la lista de coordenadas
+						m_verticesRaw[iden++] = coord;						//Se guarda la coord en la lista de coordenadas
 
 					}
 
@@ -259,7 +265,7 @@ bool C3DModelFbx::parseFbxLine(std::string line, bool countOnly, int lineNumber,
 					nextToken = nextToken2;									//Igualamos
 
 				}
-				id = 0;														//Evitamos problemas :v
+				iden = 0;														//Evitamos problemas :v
 
 			}
 
@@ -274,9 +280,9 @@ bool C3DModelFbx::parseFbxLine(std::string line, bool countOnly, int lineNumber,
 			line = token;
 			token = strtok_s((char *)line.c_str(), " ", &nextToken);
 			istringstream actual(token);
-			actual >> m_numFaces;
-			m_currentFace = m_numFaces / 3;									//Creamos los triangulos
-			m_vertexIndices = new unsigned short[m_numFaces];				//Guardamos el espacio para las coords
+			actual >> m_currentFace;
+			m_numFaces = m_currentFace / 3;									//Creamos los triangulos
+			m_vertexIndices = new unsigned short[m_currentFace];				//Guardamos el espacio para las coords
 			unsigned int temp = 0;
 
 
@@ -288,18 +294,18 @@ bool C3DModelFbx::parseFbxLine(std::string line, bool countOnly, int lineNumber,
 			token = strtok_s((char *)line.c_str(), " ", &nextToken);		//Creamos otro Token para separar
 			if (0 == strcmp(token, "a:")) {									//Si encuentra "a:" (punto de inicio de las coords)
 
-				int id = 0;
+				int iden = 0;
 				while (token != NULL) {										//Mientras que haya algo en Token
 
 					double coord = 0;										//Donde se guardaran las coords
 					token = strtok_s(nextToken, ",", &nextToken2);			//Se crea otro token para poder separar todas las coords
-					if (id < m_numFaces) {									//Se le da un punto donde terminar al programa
+					if (iden < m_currentFace) {									//Se le da un punto donde terminar al programa
 						istringstream actual(token);						//Se quita todo lo no numerico y se convierte en valor numerico
 						actual >> coord;									//Se guarda en la coord
 						if (coord < 0) {
-							coord = (coord * -1) + 1;
+							coord = (coord * -1) - 1;
 						}
-						m_vertexIndices[id++] = coord;						//Se guarda la coord en la lista de coordenadas
+						m_vertexIndices[iden++] = coord;						//Se guarda la coord en la lista de coordenadas
 
 					}
 
@@ -326,7 +332,7 @@ bool C3DModelFbx::parseFbxLine(std::string line, bool countOnly, int lineNumber,
 					nextToken = nextToken2;									//Igualamos
 
 				}
-				id = 0;														//Evitamos problemas :v
+				iden = 0;														//Evitamos problemas :v
 
 			}
 
@@ -342,9 +348,10 @@ bool C3DModelFbx::parseFbxLine(std::string line, bool countOnly, int lineNumber,
 			line = token;
 			token = strtok_s((char *)line.c_str(), " ", &nextToken);
 			istringstream actual(token);
-			actual >> m_numNormals;
-			m_currentNormal = (m_numNormals / 3) / 3;						//Creamos los triangulos
-			m_normalsRaw = new float[m_numNormals];							//Guardamos el espacio para las coords
+			actual >> m_currentNormal;
+			m_numNormals = (m_currentNormal / 3) / 3;						//Creamos los triangulos
+			m_normalsRaw = new float[m_currentNormal];							//Guardamos el espacio para las coords
+			vector<float> JUSTCHECK;
 			unsigned int temp = 0;
 
 
@@ -356,17 +363,18 @@ bool C3DModelFbx::parseFbxLine(std::string line, bool countOnly, int lineNumber,
 			token = strtok_s((char *)line.c_str(), " ", &nextToken);		//Creamos otro Token para separar
 			if (0 == strcmp(token, "a:")) {									//Si encuentra "a:" (punto de inicio de las coords)
 
-				int id = 0;
+				int iden = 0;
 				while (token != NULL) {										//Mientras que haya algo en Token
 
-					double coord = 0;										//Donde se guardaran las coords
+					float coord = 0;										//Donde se guardaran las coords
 					token = strtok_s(nextToken, ",", &nextToken2);			//Se crea otro token para poder separar todas las coords
-					if (id < m_numNormals) {								//Se le da un punto donde terminar al programa
+					if (iden < m_currentNormal) {								//Se le da un punto donde terminar al programa
 
 						istringstream actual(token);						//Se quita todo lo no numerico y se convierte en valor numerico
 						actual >> coord;									//Se guarda en la coord
-						m_normalsRaw[id++] = coord;							//Se guarda la coord en la lista de coordenadas
-
+						m_normalsRaw[iden++] = coord; //Se guarda la coord en la lista de coordenadas
+						JUSTCHECK.push_back(coord);
+						cout << m_normalsRaw[iden - 1] << " ";
 					}
 
 					else {
@@ -397,7 +405,7 @@ bool C3DModelFbx::parseFbxLine(std::string line, bool countOnly, int lineNumber,
 					nextToken = nextToken2;									//Igualamos
 
 				}
-				id = 0;														//Evitamos problemas :v
+				iden = 0;														//Evitamos problemas :v
 
 			}
 
@@ -415,10 +423,10 @@ bool C3DModelFbx::parseFbxLine(std::string line, bool countOnly, int lineNumber,
 			line = token;
 			token = strtok_s((char *)line.c_str(), " ", &nextToken);
 			istringstream actual(token);
-			actual >> m_numUVCoords;
+			actual >> m_currentUV;
 
-			m_currentUV = m_numUVCoords / 2;								//Creamos los triangulos
-			m_uvCoordsRaw = new float[m_numUVCoords];						//Guardamos el espacio para las coords
+			m_numUVCoords = m_currentUV / 2;								//Creamos los triangulos
+			m_uvCoordsRaw = new float[m_currentUV];						//Guardamos el espacio para las coords
 			unsigned int temp = 0;
 
 
@@ -430,16 +438,16 @@ bool C3DModelFbx::parseFbxLine(std::string line, bool countOnly, int lineNumber,
 			token = strtok_s((char *)line.c_str(), " ", &nextToken);		//Creamos otro Token para separar
 			if (0 == strcmp(token, "a:")) {									//Si encuentra "a:" (punto de inicio de las coords)
 
-				int id = 0;
+				int iden = 0;
 				while (token != NULL) {										//Mientras que haya algo en Token
 
 					double coord = 0;										//Donde se guardaran las coords
 					token = strtok_s(nextToken, ",", &nextToken2);			//Se crea otro token para poder separar todas las coords
-					if (id < m_numUVCoords) {								//Se le da un punto donde terminar al programa
+					if (iden < m_currentUV) {								//Se le da un punto donde terminar al programa
 
 						istringstream actual(token);						//Se quita todo lo no numerico y se convierte en valor numerico
 						actual >> coord;									//Se guarda en la coord
-						m_uvCoordsRaw[id++] = coord;						//Se guarda la coord en la lista de coordenadas
+						m_uvCoordsRaw[iden++] = coord;						//Se guarda la coord en la lista de coordenadas
 
 					}
 
@@ -471,7 +479,7 @@ bool C3DModelFbx::parseFbxLine(std::string line, bool countOnly, int lineNumber,
 					nextToken = nextToken2;									//Igualamos
 
 				}
-				id = 0;														//Evitamos problemas :v
+				iden = 0;														//Evitamos problemas :v
 
 			}
 
@@ -488,9 +496,10 @@ bool C3DModelFbx::parseFbxLine(std::string line, bool countOnly, int lineNumber,
 			line = token;
 			token = strtok_s((char *)line.c_str(), " ", &nextToken);
 			istringstream actual(token);
-			actual >> m_numUVIndex;
-			m_currentUVIndex = m_numUVIndex / 3;							//Creamos los triangulos
-			m_UVindices = new unsigned short[m_numUVIndex];					//Guardamos el espacio para las coords
+			actual >> m_currentUVIndex;
+			m_numUVIndex = m_currentUVIndex / 3;							//Creamos los triangulos
+			m_UVindices = new unsigned short[m_currentUVIndex];					//Guardamos el espacio para las coords
+			m_normalIndices = new unsigned short[m_currentUVIndex];
 			unsigned int temp = 0;
 
 
@@ -502,22 +511,20 @@ bool C3DModelFbx::parseFbxLine(std::string line, bool countOnly, int lineNumber,
 			token = strtok_s((char *)line.c_str(), " ", &nextToken);		//Creamos otro Token para separar
 			if (0 == strcmp(token, "a:")) {									//Si encuentra "a:" (punto de inicio de las coords)
 
-				int id = 0;
+				int iden = 0;
 				while (token != NULL) {										//Mientras que haya algo en Token
 
 					double coord = 0;										//Donde se guardaran las coords
 					token = strtok_s(nextToken, ",", &nextToken2);			//Se crea otro token para poder separar todas las coords
-					if (id < m_numUVIndex) {								//Se le da un punto donde terminar al programa
+					if (iden < m_currentUVIndex) {								//Se le da un punto donde terminar al programa
 
 						istringstream actual(token);						//Se quita todo lo no numerico y se convierte en valor numerico
 						actual >> coord;									//Se guarda en la coord
-						m_UVindices[id++] = coord;							//Se guarda la coord en la lista de coordenadas
+						m_UVindices[iden] = coord;							//Se guarda la coord en la lista de coordenadas
+						m_normalIndices[iden++] = coord;
+					}					
 
-					}
-
-					
-
-					if (*nextToken2 == '\0' || *nextToken2 == ' ' || *nextToken2 == '\n' || *nextToken2 == NULL) {		//En caso de encontrar diferentes casos del archivo
+					if (*nextToken2 == '\0' || *nextToken2 == ' ' || *nextToken2 == '\n' || nextToken2 == NULL) {		//En caso de encontrar diferentes casos del archivo
 
 						getline(inFile, line);								//Leemos la linea siguiente
 
@@ -539,7 +546,7 @@ bool C3DModelFbx::parseFbxLine(std::string line, bool countOnly, int lineNumber,
 					nextToken = nextToken2;									//Igualamos
 
 				}
-				id = 0;														//Evitamos problemas :v
+				iden = 0;														//Evitamos problemas :v
 
 			}
 
