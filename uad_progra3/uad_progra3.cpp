@@ -14,12 +14,12 @@ using namespace std;
 #include "Include/CAppEmpty.h"
 #include "Include/CAppCube.h"
 #include "Include/CAppTriangle.h"
-
+#include "Include/CHexa.h"
 
 int main() {
 
 	CApp *app = NULL;					// Pointer to BASE class CApp
-	app = new CAppFbxLoader(800, 600);		// Using pointer to base class, create a new object of DERIVED class
+	app = new CHexa(800, 600);			// Using pointer to base class, create a new object of DERIVED class
 	app->run();							// Run the app
 	delete app;							// Delete pointer
 	app = NULL;							// Set pointer to NULL

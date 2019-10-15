@@ -9,6 +9,7 @@ using namespace std;
 #include "../Include/CWideStringHelper.h"
 #include "../Include/CTextureLoader.h"
 
+
 /* */
 CAppGeometricFigures::CAppGeometricFigures() :
 	CAppGeometricFigures(CGameWindow::DEFAULT_WINDOW_WIDTH, CGameWindow::DEFAULT_WINDOW_HEIGHT)
@@ -107,7 +108,8 @@ void CAppGeometricFigures::initialize()
 	}
 
 	m_initialized = true;
-	createPyramidGeometry();
+	//createPyramidGeometry();
+	createHexaGeometry();
 }
 
 /* */
@@ -175,7 +177,7 @@ void CAppGeometricFigures::update(double deltaTime)
 }
 
 /* */
-void CAppGeometricFigures::render()
+void CAppGeometricFigures::render()																											//HACER CAMBIOS AQUI
 {
 	CGameMenu *menu = getMenu();
 
@@ -201,6 +203,7 @@ void CAppGeometricFigures::render()
 		// Get a matrix that has both the object rotation and translation
 		MathHelper::Matrix4 modelMatrix = MathHelper::SimpleModelMatrixRotationTranslation((float)totalDegreesRotatedRadians, m_objectPosition);
 
+		/*
 		if (m_pyramidVertexArrayObject > 0 && m_numFacesPyramid > 0)
 		{
 			CVector3 pos2 = m_objectPosition;
@@ -230,7 +233,39 @@ void CAppGeometricFigures::render()
 				COpenGLRenderer::EPRIMITIVE_MODE::TRIANGLES,
 				false
 			);
+		}*/
+
+				//Hexagono :D
+		if (m_hexaVertexArrayObject > 0 && m_numFacesHexa > 0) {
+			CVector3 pos2 = m_objectPosition;
+			pos2 += CVector3(3.0f, 0.0f, 0.0f);
+			MathHelper::Matrix4 modelMatrix2 = MathHelper::SimpleModelMatrixRotationTranslation((float)totalDegreesRotatedRadians, pos2);
+
+			// Render pyramid in the first position, using the color shader
+			getOpenGLRenderer()->renderObject(
+				&m_colorModelShaderId,
+				&m_hexaVertexArrayObject,
+				&noTexture,
+				m_numFacesHexa,
+				color,
+				&modelMatrix,
+				COpenGLRenderer::EPRIMITIVE_MODE::TRIANGLES,
+				false
+			);
+
+			// Render same pyramid (same vertex array object identifier), in a second position, but this time with a texture
+			getOpenGLRenderer()->renderObject(
+				&m_texturedModelShaderId,
+				&m_hexaVertexArrayObject,
+				&m_textureID,
+				m_numFacesHexa,
+				color,
+				&modelMatrix2,
+				COpenGLRenderer::EPRIMITIVE_MODE::TRIANGLES,
+				false
+			);
 		}
+
 
 		// =================================
 	}
@@ -365,6 +400,148 @@ void CAppGeometricFigures::createPyramidGeometry()
 		}
 	}
 }
+
+/* */
+void CAppGeometricFigures::createHexaGeometry() {
+
+	float height = 2.25f;
+	float sideHalfX = 0.75f;
+	float sideHalfZ = 1.0f;
+	bool loaded = false;
+	CVector3 v1, v2, v3, v1v2, v1v3, norm;
+	CVector3 Centro = { 0,0,0 };
+					//Test
+	/*
+	GLfloat xi = 0.0;
+	GLfloat yi = 0.0;
+	GLint numLados = 6;
+	GLdouble puntosx[13];
+	GLdouble puntosy[13];
+	double grados = (360 / numLados);
+	double aux = grados;
+
+	for (int i = 0; i < numLados; i++)
+	{
+
+		GLdouble px = ((2 * (cos((PI_OVER_180*grados) / 180))) + xi);
+		GLdouble py = ((2 * (sin((PI_OVER_180*grados) / 180))) + yi);
+
+
+		puntosx[i] = px;
+		puntosy[i] = py;
+
+
+		grados = grados + aux;
+
+
+	}
+
+	for (int i = 0; i < numLados; i++)
+	{
+		GLVertex2d(puntosx[i], puntosy[i]);
+		
+	}*/
+	
+
+			//Vertex
+	float vertexData[6*3] = {
+		//Holi :)
+	};
+
+	int count = 0;
+
+	for (int i = 0; i < 6; i++) {		//Introducir los datos con los angulos
+		
+		CVector3 CoordVertex = calcPoint(Centro,i,1,false);		//Manda a llamar la funcion para crear los puntos con los grados
+		vertexData[count++] = CoordVertex.getX();				//Pasamos X
+		vertexData[count++] = CoordVertex.getY();				//Pasamos Y
+		vertexData[count++] = CoordVertex.getZ();				//Pasamos Z
+
+	}
+
+	
+
+	float vertexUVs[6] = {
+		0.0f,  0.0f, 
+		0.0f, 0.0f, 
+		0.0f, 0.0f 
+		
+	};
+
+	m_numFacesHexa = 4;
+
+	unsigned short faceIndices[12] = {
+		0, 5, 1,
+		1, 5, 4,
+		1, 4, 2,
+		2, 4, 3
+	};
+
+	float normalData[12] = {
+		0.0, 1.0, 0.0,
+		0.0, 1.0, 0.0,
+		0.0, 1.0, 0.0,
+		0.0, 1.0, 0.0
+	};
+
+	unsigned short faceNormalIndices[12] = {
+		0, 0, 0,
+		0, 0, 0,
+		0, 0, 0,
+		0, 0, 0
+	};
+
+	
+	// Allocate graphics memory for object
+	loaded = getOpenGLRenderer()->allocateGraphicsMemoryForObject(
+		&m_colorModelShaderId,
+		&m_hexaVertexArrayObject,
+		vertexData,
+		6,        // Numero de vertices, internamente el codigo multiplica sizeof(float) * numVertices * 3
+		normalData,
+		6,
+		vertexUVs,
+		6,
+		faceIndices,
+		4,        // Numero de indices, internamente el codigo multiplica sizeof(unsigned short) * numIndicesVert * 3
+		faceNormalIndices,
+		6,
+		faceIndices,
+		6
+	);
+
+	if (!loaded)
+	{
+		m_numFacesHexa = 0;
+
+		if (m_hexaVertexArrayObject > 0)
+		{
+			getOpenGLRenderer()->freeGraphicsMemoryForObject(&m_hexaVertexArrayObject);
+			m_hexaVertexArrayObject = 0;
+		}
+	}
+	
+}
+
+CVector3 CAppGeometricFigures::calcPoint(CVector3 center, int numPoint, float cellSize, bool pointy) {
+
+	CVector3 point;
+	float angle;
+	if (pointy == true) {
+		angle = 60 * numPoint - 30;
+	}
+	else if (pointy == false) {
+		angle = 60 * numPoint;
+	}
+	float angleR = angle * PI_OVER_180;
+	point.Y = 0.0f;
+	point.X = center.X + cellSize + cos(angleR);
+	point.Z = center.Y + cellSize * sin(angleR);
+
+	return point;
+}
+
+
 
 /* */
 void CAppGeometricFigures::onF2(int mods)

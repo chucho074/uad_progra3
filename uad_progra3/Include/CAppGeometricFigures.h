@@ -51,6 +51,7 @@ private:
 	// An OpenGL Vertex Array Object is a reference to graphics memory that tells OpenGL where to look for the geometry of the object
 	// It needs to be initialized using the allocateGraphicsMemory() method from the renderer.
 	unsigned int m_pyramidVertexArrayObject;
+	unsigned int m_hexaVertexArrayObject;
 	
 	// Identifier for the OpenGL Texture Object 
 	unsigned int m_textureID;
@@ -59,6 +60,7 @@ private:
 	// ---------------------------------------------------------------
 
 	int m_numFacesPyramid;
+	int m_numFacesHexa;
 	int m_renderPolygonMode;
 
 protected:
@@ -90,6 +92,8 @@ public:
 	// Method to render the app
 	void render();
 
+	CVector3 calcPoint(CVector3, int, float, bool );
+
 	// -----------------------------------------------------------------------------------------------------------------------
 	// Other inherited methods from CApp. These are optional to override.
 	// Only provide an implementation in this DERIVED class if you need them to do something different than the base class CApp
@@ -108,6 +112,7 @@ public:
 private:
 
 	void createPyramidGeometry();
+	void createHexaGeometry();
 
 };
 

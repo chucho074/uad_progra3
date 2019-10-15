@@ -159,6 +159,9 @@
     <ClInclude Include="Include\C3DModelFbx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\CHexa.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -237,6 +240,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\C3DModelFbx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CHexa.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

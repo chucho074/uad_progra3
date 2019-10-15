@@ -8,6 +8,7 @@
 #define CAPP_PROGRA3_CUBES_WINDOW_TITLE         "Cubes app"
 #define CAPP_PROGRA3_OBJ_LOADER_WINDOW_TITLE    ".OBJ Loader app"
 #define CAPP_PROGRA3_GEOMETRIC_WINDOW_TITLE     "Geometric shapes app"
+#define CAPP_PROGRA3_HEX_WINDOW_TITLE			"Hexa app"
 #define CAPP_PROGRA3_HEXGRID_WINDOW_TITLE       "HexGrid app"
 #define CAPP_PROGRA3_CUBE						"Cube App"
 #define CAPP_PROGRA3_TRIANGLE					"Triangle App"
