@@ -10,10 +10,11 @@ public:
 	//					Constructors and destructor
 	// ---------------------------------------------------------------
 
-	CHexa();												//Constructor
+	CHexa();
+	CHexa(CVector3);												//Constructor
 	~CHexa();												//Destructor
 
-
+	CVector3 centerX;
 	// ---------------------------------------------------------------
 	//							Functions
 	// ---------------------------------------------------------------

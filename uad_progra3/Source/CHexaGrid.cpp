@@ -20,6 +20,51 @@ CHexaGrid::CHexaGrid() {
 	if (orientation == "pointy") {
 		pointy = true;
 	}
+
+	//Pointy
+	if (pointy) {
+		CVector3 Position = { 0.f, 0.f, 0.f };
+		float w = sqrtf(3.f) * cellSize;
+		float h = 2.f * cellSize;
+
+		for (int i = 0; i < numRows; i++) {
+			vector<CHexa>Temp;
+			for (int j = 0; j < numCols; j++) {
+				Temp.push_back(CHexa(Position));
+				Position.X += w;
+			}
+			if (i % 2) {
+				Position.X = 0.f;
+			}
+			else {
+				Position.X = w / 2;
+			}
+			Position.Z += h * (3.f / 4.f);
+			SuperVector.push_back(Temp);
+		}
+	}
+	else {
+		//Flat las cols van antes que las rows
+		CVector3 Position = { 0.f, 0.f, 0.f };
+		float w = 2 * cellSize;
+		float h = sqrtf(3.f)* cellSize;
+
+		for (int i = 0; i < numCols; i++) {
+			vector<CHexa>Temp;
+			for (int j = 0; j < numRows; j++) {
+				Temp.push_back(CHexa(Position));
+				Position.Z += h;
+			}
+			if (i % 2) {
+				Position.Z = 0.f;
+			}
+			else {
+				Position.Z = h / 2;
+			}
+			Position.X += w * (3.f / 4.f);
+			SuperVector.push_back(Temp);
+		}
+	}
 }
 
 

@@ -139,39 +139,65 @@ void CAppHexaGrid::render() {
 		//...
 
 	}
-	else {																		// Otherwise, render app-specific stuff here...
+	else {										// Otherwise, render app-specific stuff here...
 
 		float color[3] = { 1.0f, 1.0f, 1.0f };
 		unsigned int noTexture = 0;
-
+		double degresRotation = m_objectRotation * PI_OVER_180;
 		MathHelper::Matrix4 modelMatrix;
 
 		//Hexagono :D
 		if (m_hexaVertexArrayObject > 0 && Grid->m_numFacesHexa > 0) {
-			CVector3 pos2 = m_objectPosition;
-			pos2 += CVector3(3.0f, 0.0f, 0.0f);
-			MathHelper::Matrix4 modelMatrix2;
-
+			//CVector3 pos2 = m_objectPosition;
+			//pos2 += CVector3(3.0f, 0.0f, 0.0f);
+			//MathHelper::Matrix4 modelMatrix2;
+			for (int i = 0; i < Grid->numRows; i++) {
+				for (int j = 0; j < Grid->numCols; j++) {
+					modelMatrix = MathHelper::SimpleModelMatrixRotationTranslation((float)degresRotation, Grid->SuperVector[i][j].centerX);
+					getOpenGLRenderer()->renderObject(&m_colorModelShaderId, &m_hexaVertexArrayObject, &noTexture, Grid->m_numFacesHexa, color, &modelMatrix, COpenGLRenderer::EPRIMITIVE_MODE::TRIANGLES, false);
+					
+				}
+			}
 			// Render Hexa in the first position, using the color shader
-			getOpenGLRenderer()->renderObject(&m_colorModelShaderId, &m_hexaVertexArrayObject, &noTexture, Grid->m_numFacesHexa, color, &modelMatrix, COpenGLRenderer::EPRIMITIVE_MODE::TRIANGLES, false);
 
 		}
 		// =================================
 	}
 }
 
+/**/
+void CAppHexaGrid::moveCamera(float dir) {
+	if (getOpenGLRenderer() != nullptr) {
+		getOpenGLRenderer()->simpleCameraZoom(dir);
+	}
+}
+
 /* */
 void CAppHexaGrid::onMouseMove(float deltaX, float deltaY) {
-	// Update app-specific stuff when mouse moves here 
-	// ===============================================
-	//
-	// ===============================================
+	if (deltaX < 100.f && deltaY < 100.f) {
+		float moveX = -deltaX * DEFAULT_CAMERA_MOVE_SPEED;
+		float moveZ = -deltaY * DEFAULT_CAMERA_MOVE_SPEED;
+		float currentPos[3];
+		for (int i = 0; i < Grid->numRows; i++) {
+			for (int j = 0; j < Grid->numCols; j++) {
+				Grid->SuperVector[i][j].centerX.getValues(currentPos);
+				currentPos[0] += moveX;
+				currentPos[2] += moveZ;
+				Grid->SuperVector[i][j].centerX.setValues(currentPos);
+			}
+		}
+	}
 }
 
 /* */
 void CAppHexaGrid::onF2(int mods) {
 
-
+	if (mods & KEY_MOD_SHIFT) {
+		moveCamera(-1.f);
+	}
+	else {
+		moveCamera(1.f);
+	}
 
 }
 

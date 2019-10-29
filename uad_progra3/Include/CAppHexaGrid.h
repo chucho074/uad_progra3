@@ -48,6 +48,7 @@ private:
 															// ---------------------------------------------------------------
 	//							FUNCIONES
 	// ---------------------------------------------------------------
+	void moveCamera(float);
 	void onMouseMove(float deltaX, float deltaY);			// Called when mouse moves within the window
 	void onF2(int mods);									// Override on F2
 	void onF3(int mods);									// Override on F3
