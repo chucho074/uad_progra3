@@ -162,6 +162,18 @@
     <ClInclude Include="Include\CHexa.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\CHexaGrid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\CAppHexaGrid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\CWorld.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -243,6 +255,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\CHexa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CHexaGrid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CWorld.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CAppHexaGrid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

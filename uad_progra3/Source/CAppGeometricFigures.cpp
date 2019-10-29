@@ -401,7 +401,11 @@ void CAppGeometricFigures::createPyramidGeometry()
 	}
 }
 
-/* */
+void CAppGeometricFigures::createHexaGeometry()
+{
+}
+
+/* 
 void CAppGeometricFigures::createHexaGeometry() {
 
 	float height = 2.25f;
@@ -440,7 +444,7 @@ void CAppGeometricFigures::createHexaGeometry() {
 	{
 		GLVertex2d(puntosx[i], puntosy[i]);
 		
-	}*/
+	}
 	
 
 			//Vertex
@@ -521,25 +525,25 @@ void CAppGeometricFigures::createHexaGeometry() {
 		}
 	}
 	
-}
+}*/
 
-CVector3 CAppGeometricFigures::calcPoint(CVector3 center, int numPoint, float cellSize, bool pointy) {
-
-	CVector3 point;
-	float angle;
-	if (pointy == true) {
-		angle = 60 * numPoint - 30;
-	}
-	else if (pointy == false) {
-		angle = 60 * numPoint;
-	}
-	float angleR = angle * PI_OVER_180;
-	point.Y = 0.0f;
-	point.X = center.X + cellSize + cos(angleR);
-	point.Z = center.Y + cellSize * sin(angleR);
-
-	return point;
-}
+//CVector3 CAppGeometricFigures::calcPoint(CVector3 center, int numPoint, float cellSize, bool pointy) {
+//
+//	CVector3 point;
+//	float angle;
+//	if (pointy == true) {
+//		angle = 60 * numPoint - 30;
+//	}
+//	else if (pointy == false) {
+//		angle = 60 * numPoint;
+//	}
+//	float angleR = angle * PI_OVER_180;
+//	point.Y = 0.0f;
+//	point.X = center.X + cellSize + cos(angleR);
+//	point.Z = center.Y + cellSize * sin(angleR);
+//
+//	return point;
+//}
 
 
 

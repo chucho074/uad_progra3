@@ -92,7 +92,7 @@ public:
 	// Method to render the app
 	void render();
 
-	CVector3 calcPoint(CVector3, int, float, bool );
+	//CVector3 calcPoint(CVector3, int, float, bool );
 
 	// -----------------------------------------------------------------------------------------------------------------------
 	// Other inherited methods from CApp. These are optional to override.
