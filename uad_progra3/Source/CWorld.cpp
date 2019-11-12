@@ -8,19 +8,21 @@ using namespace std;
 #include "../Include/CWideStringHelper.h"
 #include "../Include/CTextureLoader.h"
 
-
+/**/
 CWorld::CWorld() {
 
 
 
 }
 
+/**/
 CWorld::~CWorld() {
 
 
 
 }
 
+/*Work In Progress*/
 void CWorld::readMod() {
 
 		ifstream file_json("hexgrid_cfg.json", ifstream::binary);

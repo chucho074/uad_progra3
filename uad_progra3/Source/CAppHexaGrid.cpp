@@ -27,9 +27,9 @@ CAppHexaGrid::CAppHexaGrid(int window_width, int window_height) :
 	Grid(nullptr) {
 	cout << "Constructor: CAppHexaGrid(int window_width, int window_height)" << endl;
 
-}
+	}
 
-
+/**/
 CAppHexaGrid::~CAppHexaGrid() {
 	cout << "Destructor: ~CAppHexaGrid()" << endl;
 	unloadCurrent3DModel();
@@ -38,7 +38,7 @@ CAppHexaGrid::~CAppHexaGrid() {
 	}
 }
 
-
+/**/
 void CAppHexaGrid::initialize() {
 	
 	
@@ -92,7 +92,7 @@ void CAppHexaGrid::initialize() {
 	Grid->createHexaGeometry(getOpenGLRenderer(),m_colorModelShaderId, m_hexaVertexArrayObject);
 }
 
-
+/**/
 void CAppHexaGrid::update(double deltaTime) {
 
 	// Do not update if delta time is < 0
@@ -106,7 +106,7 @@ void CAppHexaGrid::update(double deltaTime) {
 
 }
 
-
+/**/
 void CAppHexaGrid::run() {
 	// Check if CGameWindow object AND Graphics API specific Window library have been initialized
 	if (canRun()) {
@@ -129,7 +129,7 @@ void CAppHexaGrid::run() {
 	}
 }
 
-
+/**/
 void CAppHexaGrid::render() {
 	CGameMenu *menu = getMenu();
 
@@ -213,6 +213,9 @@ void CAppHexaGrid::onF3(int mods) {
 	}
 }
 
-void CAppHexaGrid::unloadCurrent3DModel()
-{
+/**/
+void CAppHexaGrid::unloadCurrent3DModel() {
+
+
+
 }

@@ -9,7 +9,7 @@ using namespace std;
 #include "../Include/CTextureLoader.h"
 
 
-
+//Constructor
 CHexaGrid::CHexaGrid() {
 	ifstream file_json("hexgrid_cfg.json", ifstream::binary);
 	file_json >> j;
@@ -21,7 +21,7 @@ CHexaGrid::CHexaGrid() {
 		pointy = true;
 	}
 
-	//Pointy
+	//Pointy case
 	if (pointy) {
 		CVector3 Position = { 0.f, 0.f, 0.f };
 		float w = sqrtf(3.f) * cellSize;
@@ -43,6 +43,7 @@ CHexaGrid::CHexaGrid() {
 			SuperVector.push_back(Temp);
 		}
 	}
+	//Flat case
 	else {
 		//Flat las cols van antes que las rows
 		CVector3 Position = { 0.f, 0.f, 0.f };
@@ -67,7 +68,7 @@ CHexaGrid::CHexaGrid() {
 	}
 }
 
-
+//Destructor
 CHexaGrid::~CHexaGrid() {
 
 	//Cerrar el archivo
@@ -75,7 +76,7 @@ CHexaGrid::~CHexaGrid() {
 }
 
 
-
+//Geometry generation
 void CHexaGrid::createHexaGeometry(COpenGLRenderer * const render, unsigned int & shaderID, unsigned int & VAO) {
 
 	CHexa Cell;
@@ -92,12 +93,12 @@ void CHexaGrid::createHexaGeometry(COpenGLRenderer * const render, unsigned int 
 
 	int count = 0;
 
-	for (int i = 1; i < 7; i++) {										//Introducir los datos con los angulos
+	for (int i = 1; i < 7; i++) {												//Introducir los datos con los angulos
 
 		CVector3 CoordVertex = Cell.calcPoint(Centro, i, cellSize, pointy);		//Manda a llamar la funcion para crear los puntos con los grados
-		vertexData[count++] = CoordVertex.getX();						//Pasamos X
-		vertexData[count++] = CoordVertex.getY();						//Pasamos Y
-		vertexData[count++] = CoordVertex.getZ();						//Pasamos Z
+		vertexData[count++] = CoordVertex.getX();								//Pasamos X
+		vertexData[count++] = CoordVertex.getY();								//Pasamos Y
+		vertexData[count++] = CoordVertex.getZ();								//Pasamos Z
 
 	}
 

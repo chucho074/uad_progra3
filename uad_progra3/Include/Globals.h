@@ -13,6 +13,7 @@
 #define CAPP_PROGRA3_CUBE						"Cube App"
 #define CAPP_PROGRA3_TRIANGLE					"Triangle App"
 #define CAPP_PROGRA3_FBX_LOADER_WINDOW_TITLE    ".FBX Loader app"
+#define CAPP_PROGRA3_CAppQuadtree_WINDOW_TITLE  "Quadtree app"
 
 
 

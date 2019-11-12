@@ -11,17 +11,18 @@ public:
 	// ---------------------------------------------------------------
 
 	CHexa();
-	CHexa(CVector3);												//Constructor
+	CHexa(CVector3);										//Constructor
 	~CHexa();												//Destructor
-
+	
+	// ---------------------------------------------------------------
+	//							Variables
+	// ---------------------------------------------------------------
 	CVector3 centerX;
+
 	// ---------------------------------------------------------------
 	//							Functions
 	// ---------------------------------------------------------------
-
-	CVector3 calcPoint(CVector3 center, int numPoint, float cellSize, bool pointy);
-
-	//CVector3 calcPoint(CVector3, int, float, bool);			// Calcular los vertices
+	CVector3 calcPoint(CVector3, int, float, bool);			// Calcular los vertices
 	
 
 	

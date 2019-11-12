@@ -5,7 +5,7 @@
 #include "../Include/CWideStringHelper.h"
 
 
-/**/
+//Constructor
 CHexa::CHexa() {
 
 
@@ -13,20 +13,22 @@ CHexa::CHexa() {
 }
 
 
-/**/
+//Constructor c/Parametros
 CHexa::CHexa(CVector3 cent) {
 
 	centerX = cent;
 
 }
 
-/* */
+//Destructor
 CHexa::~CHexa() {
+
+
 
 }
 
 
-/* */
+//Calcular los vertices de los hexagonos
 CVector3 CHexa::calcPoint(CVector3 center, int numPoint, float cellSize, bool pointy) {
 
 	CVector3 point;

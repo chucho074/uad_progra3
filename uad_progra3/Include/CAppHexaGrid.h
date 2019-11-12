@@ -6,20 +6,13 @@
 #include "CHexaGrid.h"
 
 
-//TODO:
-//Funciones de app
-//Crea el objeto de CHexaGrid
-//Manda a llamar la funcion para crear la geometria
-//En el initialize se pone lo del json
-//El render se pone un for para hacerlo varias y se pone las posiciones
-
 class CAppHexaGrid : public CApp{
 public:
 	// ---------------------------------------------------------------
 	//					CONSTRUCTOR Y DESTRUCTOR
 	// ---------------------------------------------------------------
 	CAppHexaGrid();
-	CAppHexaGrid(int window_width, int window_height);				//Constructor with parameters
+	CAppHexaGrid(int window_width, int window_height);		//Constructor with parameters
 	~CAppHexaGrid();
 
 	// ---------------------------------------------------------------
@@ -30,8 +23,11 @@ public:
 	void run();
 	void render();
 
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 private:
+	// ---------------------------------------------------------------
+	//							VARIABLES
+	// ---------------------------------------------------------------
 	nlohmann::json j;
 	CHexaGrid *Grid;
 	C3DModel *p3DModel;
@@ -45,7 +41,7 @@ private:
 	double m_objectRotation;
 	double m_rotationSpeed;
 															
-															// ---------------------------------------------------------------
+	// ---------------------------------------------------------------
 	//							FUNCIONES
 	// ---------------------------------------------------------------
 	void moveCamera(float);
