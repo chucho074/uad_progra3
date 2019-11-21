@@ -6,16 +6,20 @@
 
 /*
 TODO:
->
+> Metodo que regrese un apuntador al array de esquinas
 */
 
+// Axis-Alinged Bouding Box
 class AABB {
 public:
 	AABB();
+	AABB(CVector3 *);
 	~AABB();
 
 private:
 	CVector3 corners[4];
+
+	void getCorners(CVector3 *);
 
 };
 

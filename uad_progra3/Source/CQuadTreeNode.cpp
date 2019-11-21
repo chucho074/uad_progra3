@@ -9,3 +9,17 @@ CQuadTreeNode::~CQuadTreeNode() {
 
 
 }
+
+void CQuadTreeNode::setBounds(AABB) {
+
+
+
+}
+
+void CQuadTreeNode::getBounds(AABB) {
+
+
+
+}
+
+

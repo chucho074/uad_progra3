@@ -24,6 +24,8 @@ public:
 	void render();
 
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	unsigned int m_hexaVertexArrayObject;					// An OpenGL Vertex Array Object is a reference to graphics memory that tells OpenGL where to look for the geometry of the object. 
+	unsigned int m_colorModelShaderId;						// OpenGL Shader Program for the color-only object
 private:
 	// ---------------------------------------------------------------
 	//							VARIABLES
@@ -33,9 +35,7 @@ private:
 	C3DModel *p3DModel;
 	bool m_initialized;
 	unsigned int m_textureID;								// Identifier for the OpenGL Texture Object 
-	unsigned int m_colorModelShaderId;						// OpenGL Shader Program for the color-only object
 	unsigned int m_texturedModelShaderId;					// OpenGL Shader Program for the textured object
-	unsigned int m_hexaVertexArrayObject;					// An OpenGL Vertex Array Object is a reference to graphics memory that tells OpenGL where to look for the geometry of the object. 
 	double m_currentDeltaTime;								// Current delta time (time of the current frame - time of the last frame)
 	CVector3 m_objectPosition;								// Current object position
 	double m_objectRotation;

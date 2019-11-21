@@ -4,7 +4,7 @@
 #include "Globals.h"
 #include "MathHelper.h"
 #include "AABB.h"
-#include "CFrustum.h"
+//#include "CFrustum.h"
 
 /*
 TODO:
@@ -38,7 +38,7 @@ private:
 	CVector3 mWorldUp/*0,1,0*/, mEyePos, mLookAt, mUp/*= cross(mLookAt,mRight);*/, mRight/*= cross(mWorldUp, mLookAt);*/;		//mRight producto cruz de mWorldUp y mLookAt
 	int mFrameBufferWidth, mFrameBufferHeight;
 	MathHelper::Matrix4 mProyectionMatrix, mViewMatrix;
-	CFrustrum mViewFrustrum;
+	//CFrustrum mViewFrustrum;
 
 	void recalculateViewMatrix();
 	void recalculateProjectionMatrix();

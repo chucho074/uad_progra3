@@ -15,11 +15,14 @@ public:
 	CQuadTreeNode();
 	~CQuadTreeNode();
 
-private:
-	AABB bounds;
-public:
 	//void subdivide(...);
 	//CHexa * render(Camera * cam	);
+
+	void setBounds(AABB);
+	void getBounds(AABB);
+
+private:
+	AABB bounds;
 
 };
 

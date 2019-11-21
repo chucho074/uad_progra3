@@ -88,7 +88,8 @@ void CAppHexaGrid::initialize() {
 	//TODO:
 	//Tomar los datos del json
 	//Meterlos a las variables correspondientes
-	Grid = new CHexaGrid();
+	
+	//Grid = new CHexaGrid();
 	Grid->createHexaGeometry(getOpenGLRenderer(),m_colorModelShaderId, m_hexaVertexArrayObject);
 }
 

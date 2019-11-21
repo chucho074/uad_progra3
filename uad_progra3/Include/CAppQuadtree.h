@@ -2,6 +2,8 @@
 #ifndef CAppQuadtree_H
 #define CAppQuadtree_H
 #include "Globals.h"
+#include "CHexaGrid.h"
+#include "CAppHexaGrid.h"
 #include "CApp.h"
 
 /*
@@ -18,9 +20,10 @@ Construir quadtree
 
 */
 
-class CAppQuadtree {
+class CAppQuadtree : public CApp {
 public:
 	CAppQuadtree();
+	CAppQuadtree(int, int);
 	~CAppQuadtree();
 
 private:
@@ -28,6 +31,32 @@ private:
 	void update(double);
 	void run();
 	void render();
+	bool initializeMenu();
+
+	CHexaGrid *Grid;
+	//CAppHexaGrid *x;
+	DWORD ThreadID[2];
+	HANDLE GridThread;
+	float m_currentDeltaTime;
+
+	unsigned int m_hexaVertexArrayObject;					// An OpenGL Vertex Array Object is a reference to graphics memory that tells OpenGL where to look for the geometry of the object. 
+	unsigned int m_colorModelShaderId;						// OpenGL Shader Program for the color-only object
+	bool m_initialized;
+public:
+	bool StartGridThread() {
+		// Get shader for color objects
+		// -------------------------------------------------------------------------------------------------------------
+
+		m_colorModelShaderId = getOpenGLRenderer()->getShaderProgramID(SHADER_PROGRAM_COLOR_OBJECT);
+
+		if (m_colorModelShaderId == 0) {
+			cout << "ERROR: Unable to load color shader" << endl;
+			//return;
+		}
+		Grid = new CHexaGrid();
+		Grid->createHexaGeometry(getOpenGLRenderer(), m_colorModelShaderId, m_hexaVertexArrayObject);
+		return true;
+	}
 };
 
 
