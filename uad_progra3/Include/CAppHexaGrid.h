@@ -4,7 +4,31 @@
 #include "Globals.h"
 #include "CApp.h"
 #include "CHexaGrid.h"
+#include "../Dependencies/JSON/nlohmann/json.hpp"
+#include <fstream>
+#include "C3DModel_Obj.h"
 
+using json = nlohmann::json;
+
+struct ModelParams {
+	std::string ModelName;
+	std::string ModelPath;
+	C3DModel * pModel;
+
+	ModelParams(std::string name, std::string path, C3DModel * model)
+	{
+		ModelName = name;
+		ModelPath = path;
+		pModel = model;
+	}
+	~ModelParams()
+	{
+		if (pModel != nullptr)
+		{
+			delete pModel;
+		}
+	}
+};
 
 class CAppHexaGrid : public CApp{
 public:
@@ -40,6 +64,15 @@ private:
 	CVector3 m_objectPosition;								// Current object position
 	double m_objectRotation;
 	double m_rotationSpeed;
+	std::vector<ModelParams*> mModel;
+
+	json Data;
+
+	unsigned int DataCols;
+	unsigned int DataRows;
+	float DataSize;
+	bool DataCelltype;
+	std::string sDataCelltype;
 															
 	// ---------------------------------------------------------------
 	//							FUNCIONES

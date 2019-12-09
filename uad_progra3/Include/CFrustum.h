@@ -4,7 +4,7 @@
 #define CFRUSTUM_H
 
 #include "MathHelper.h"
-#include "AABB.h"
+//#include "AABB.h"
 #include "AABB_2D.h"
 #include "CVector3.h"
 #include "CPlane.h"
@@ -50,7 +50,7 @@ public:
 	CFrustum();
 	~CFrustum();
 
-	FRUSTUM_VISIBILITY_TEST_RESULT isAABBVisible(AABB &aabb);
+	//FRUSTUM_VISIBILITY_TEST_RESULT isAABBVisible(AABB &aabb);
 	FRUSTUM_VISIBILITY_TEST_RESULT isAABBVisible(AABB_2D &aabb);
 	FRUSTUM_VISIBILITY_TEST_RESULT isPointVisible(CVector3 &point);
 

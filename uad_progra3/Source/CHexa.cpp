@@ -14,10 +14,13 @@ CHexa::CHexa() {
 
 
 //Constructor c/Parametros
-CHexa::CHexa(CVector3 cent) {
-
+CHexa::CHexa(CVector3 cent, CVector3* inVect) {
+	mCellModel = nullptr;
+	mModelScale = 0.0f;
 	centerX = cent;
-
+	for (int i = 0; i <= 6; i++) {
+		Corners[i] = inVect[i];
+	}
 }
 
 //Destructor
@@ -47,3 +50,14 @@ CVector3 CHexa::calcPoint(CVector3 center, int numPoint, float cellSize, bool po
 	return point;
 }
 
+
+CVector3 CHexa::getCorner(int k) {
+
+	return Corners[k];
+
+}
+
+int CHexa::getTriangleCount() {
+
+	return 0;
+}

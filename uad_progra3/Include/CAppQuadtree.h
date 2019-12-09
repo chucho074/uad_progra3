@@ -4,6 +4,7 @@
 #include "Globals.h"
 #include "CHexaGrid.h"
 #include "CAppHexaGrid.h"
+#include "CQuadTreeNode.h"
 #include "CApp.h"
 
 /*
@@ -33,11 +34,14 @@ private:
 	void render();
 	bool initializeMenu();
 
-	CHexaGrid *Grid;
+	
+
+	CHexaGrid * Grid;
 	//CAppHexaGrid *x;
 	DWORD ThreadID[2];
 	HANDLE GridThread;
 	float m_currentDeltaTime;
+	
 
 	unsigned int m_hexaVertexArrayObject;					// An OpenGL Vertex Array Object is a reference to graphics memory that tells OpenGL where to look for the geometry of the object. 
 	unsigned int m_colorModelShaderId;						// OpenGL Shader Program for the color-only object
@@ -57,6 +61,13 @@ public:
 		Grid->createHexaGeometry(getOpenGLRenderer(), m_colorModelShaderId, m_hexaVertexArrayObject);
 		return true;
 	}
+
+	//void moveCamera(float);
+	void onArrowUp(int mods);
+	void onArrowDown(int mods);
+	void onArrowLeft(int mods);
+	void onArrowRight(int mods);
+
 };
 
 

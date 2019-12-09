@@ -211,79 +211,79 @@ void CFrustum::setPlanePoints(
 https://cgvr.cs.uni-bremen.de/teaching/cg_literatur/lighthouse3d_view_frustum_culling/index.html
 http://old.cescg.org/CESCG-2002/DSykoraJJelinek/
 */
-CFrustum::FRUSTUM_VISIBILITY_TEST_RESULT CFrustum::isAABBVisible(AABB &aabb)
-{
-	CFrustum::FRUSTUM_VISIBILITY_TEST_RESULT result = FRUSTUM_VISIBILITY_TEST_RESULT::INSIDE;
-	int visibleCorners = 0;
-	int totalCorners = 8;
-
-	// If any of the 8 corners of the AABB is INSIDE ALL PLANES of the frustum, then the AABB is at least partially visible
-	for (int i = 0; i < totalCorners; ++i)
-	{
-		if (isPointVisible(aabb.m_points[i]) == FRUSTUM_VISIBILITY_TEST_RESULT::INSIDE)
-		{
-			++visibleCorners;
-		}
-	}
-
-	// No corners visible, AABB is very likely outside the frustum
-	if (visibleCorners == 0)
-	{
-		result = FRUSTUM_VISIBILITY_TEST_RESULT::OUTSIDE;
-
-		// 
-		// Add an additional test in case the AABB is large enough that all points are outside the frustum but it's still intersecting the frustum
-		/*
-		          __________
-		     eye /         / Frustum
-		         \        /
-				  \      /
-				   \    /
-				  __\__/__
-                 |   \/   | AABB
-				 |________|
-		*/
-		int numCornersOutside = 0;
-
-		// For each plane
-		for (int i = 0; i < 6; ++i)
-		{
-			// Reset counter
-			numCornersOutside = 0;
-
-			// For each corner of the AABB
-			for (int j = 0; j < totalCorners; ++j)
-			{
-				if (m_planes[i].distanceToPoint(aabb.m_points[j]) < 0.0f)
-				{
-					++numCornersOutside;
-				}
-			}
-			
-			// All corners are outside of THE SAME plane, it's safe to reject the AABB
-			if (numCornersOutside == totalCorners)
-			{
-				result = FRUSTUM_VISIBILITY_TEST_RESULT::OUTSIDE;
-				break;
-			}
-			else if(numCornersOutside > 0 && numCornersOutside < totalCorners)
-			{
-				// Some of the corners of the AABB are inside and some are outside of this plane
-				// Set the result temporarily to INTERSECT but don't break the loop and check the next plane
-				result = FRUSTUM_VISIBILITY_TEST_RESULT::INTERSECT;
-			}
-		}
-
-		// This is still not the perfect solution, some AABB would still be reported to be INTERSECTING the frustum
-	}
-	// At least one corner visible but not all 8, AABB is intersecting the frustum
-	else if (visibleCorners < totalCorners)
-	{
-		result = FRUSTUM_VISIBILITY_TEST_RESULT::INTERSECT;
-	}
-
-	return result;
-}
+//CFrustum::FRUSTUM_VISIBILITY_TEST_RESULT CFrustum::isAABBVisible(AABB &aabb)
+//{
+//	CFrustum::FRUSTUM_VISIBILITY_TEST_RESULT result = FRUSTUM_VISIBILITY_TEST_RESULT::INSIDE;
+//	int visibleCorners = 0;
+//	int totalCorners = 8;
+//
+//	// If any of the 8 corners of the AABB is INSIDE ALL PLANES of the frustum, then the AABB is at least partially visible
+//	for (int i = 0; i < totalCorners; ++i)
+//	{
+//		if (isPointVisible(aabb.m_points[i]) == FRUSTUM_VISIBILITY_TEST_RESULT::INSIDE)
+//		{
+//			++visibleCorners;
+//		}
+//	}
+//
+//	// No corners visible, AABB is very likely outside the frustum
+//	if (visibleCorners == 0)
+//	{
+//		result = FRUSTUM_VISIBILITY_TEST_RESULT::OUTSIDE;
+//
+//		// 
+//		// Add an additional test in case the AABB is large enough that all points are outside the frustum but it's still intersecting the frustum
+//		/*
+//		          __________
+//		     eye /         / Frustum
+//		         \        /
+//				  \      /
+//				   \    /
+//				  __\__/__
+//                 |   \/   | AABB
+//				 |________|
+//		*/
+//		int numCornersOutside = 0;
+//
+//		// For each plane
+//		for (int i = 0; i < 6; ++i)
+//		{
+//			// Reset counter
+//			numCornersOutside = 0;
+//
+//			// For each corner of the AABB
+//			for (int j = 0; j < totalCorners; ++j)
+//			{
+//				if (m_planes[i].distanceToPoint(aabb.m_points[j]) < 0.0f)
+//				{
+//					++numCornersOutside;
+//				}
+//			}
+//			
+//			// All corners are outside of THE SAME plane, it's safe to reject the AABB
+//			if (numCornersOutside == totalCorners)
+//			{
+//				result = FRUSTUM_VISIBILITY_TEST_RESULT::OUTSIDE;
+//				break;
+//			}
+//			else if(numCornersOutside > 0 && numCornersOutside < totalCorners)
+//			{
+//				// Some of the corners of the AABB are inside and some are outside of this plane
+//				// Set the result temporarily to INTERSECT but don't break the loop and check the next plane
+//				result = FRUSTUM_VISIBILITY_TEST_RESULT::INTERSECT;
+//			}
+//		}
+//
+//		// This is still not the perfect solution, some AABB would still be reported to be INTERSECTING the frustum
+//	}
+//	// At least one corner visible but not all 8, AABB is intersecting the frustum
+//	else if (visibleCorners < totalCorners)
+//	{
+//		result = FRUSTUM_VISIBILITY_TEST_RESULT::INTERSECT;
+//	}
+//
+//	return result;
+//}
 
 /*
 https://cgvr.cs.uni-bremen.de/teaching/cg_literatur/lighthouse3d_view_frustum_culling/index.html
@@ -298,7 +298,7 @@ CFrustum::FRUSTUM_VISIBILITY_TEST_RESULT CFrustum::isAABBVisible(AABB_2D &aabb)
 	// If any of the 4 corners of the AABB is INSIDE ALL PLANES of the frustum, then the AABB is at least partially visible
 	for (int i = 0; i < totalCorners; ++i)
 	{
-		if (isPointVisible(aabb.m_points[i]) == FRUSTUM_VISIBILITY_TEST_RESULT::INSIDE)
+		if (isPointVisible(aabb.corners[i]) == FRUSTUM_VISIBILITY_TEST_RESULT::INSIDE)
 		{
 			++visibleCorners;
 		}
@@ -312,12 +312,12 @@ CFrustum::FRUSTUM_VISIBILITY_TEST_RESULT CFrustum::isAABBVisible(AABB_2D &aabb)
 		// 
 		// Add an additional test in case the AABB is large enough that all points are outside the frustum but it's still intersecting the frustum
 		/*
-		__________
-		eye /         / Frustum
-		\        /
-		\      /
-		\    /
-		__\__/__
+		 __________
+    eye |         | Frustum
+	    \        /
+		 \      /
+	      \    /
+		 __\__/__
 		|   \/   | AABB
 		|________|
 		*/
@@ -332,7 +332,7 @@ CFrustum::FRUSTUM_VISIBILITY_TEST_RESULT CFrustum::isAABBVisible(AABB_2D &aabb)
 			// For each corner of the AABB
 			for (int j = 0; j < totalCorners; ++j)
 			{
-				if (m_planes[i].distanceToPoint(aabb.m_points[j]) < 0.0f)
+				if (m_planes[i].distanceToPoint(aabb.corners[j]) < 0.0f)
 				{
 					++numCornersOutside;
 				}

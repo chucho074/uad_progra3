@@ -3,8 +3,8 @@
 #define CCamera_H
 #include "Globals.h"
 #include "MathHelper.h"
-#include "AABB.h"
-//#include "CFrustum.h"
+#include "AABB_2D.h"
+#include "CFrustum.h"
 
 /*
 TODO:
@@ -26,7 +26,7 @@ public:
 
 	void strafe(float deltaMove);				//A,D			Mover sobre mRight
 
-	bool isAABBVisible(AABB & aabb);
+	bool isAABBVisible(AABB_2D & aabb);
 
 	void orbitArroundLookAt(float deltaMove);	//
 
@@ -38,7 +38,8 @@ private:
 	CVector3 mWorldUp/*0,1,0*/, mEyePos, mLookAt, mUp/*= cross(mLookAt,mRight);*/, mRight/*= cross(mWorldUp, mLookAt);*/;		//mRight producto cruz de mWorldUp y mLookAt
 	int mFrameBufferWidth, mFrameBufferHeight;
 	MathHelper::Matrix4 mProyectionMatrix, mViewMatrix;
-	//CFrustrum mViewFrustrum;
+	CFrustum mViewFrustum;
+	bool mCacheValid;
 
 	void recalculateViewMatrix();
 	void recalculateProjectionMatrix();

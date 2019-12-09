@@ -36,6 +36,13 @@ CAppHexaGrid::~CAppHexaGrid() {
 	if (Grid != nullptr) {
 		delete Grid;
 	}
+	if (mModel.size() != 0)
+	{
+		for (int i = 0; i < mModel.size(); i++)
+		{
+			delete mModel[i]->pModel;
+		}
+	}
 }
 
 /**/
@@ -61,6 +68,49 @@ void CAppHexaGrid::initialize() {
 		cout << "ERROR: Unable to load texture shader" << endl;
 		return;
 	}
+		
+
+
+	ifstream in_file("hexgrid_cfg.json", ifstream::binary);
+	Data << in_file;
+	DataCols = Data["HexGrid"]["numCols"];
+	DataRows = Data["HexGrid"]["numRows"];
+	DataSize = Data["HexGrid"]["cellSize"];
+	sDataCelltype = Data["HexGrid"]["orientation"].get<std::string>();
+	if (sDataCelltype == "pointy")
+	{
+		DataCelltype = true;
+	}
+	else
+	{
+		DataCelltype = false;
+	}
+
+	int objects_present = (int)Data.count("Models");
+	if (objects_present > 0 && (Data["Models"].type() == json::value_t::array))
+	{
+		std::string objName = "";
+		std::string objFileName = "";
+		C3DModel * Model;
+		ModelParams * ptrModel;
+		for (json::iterator it = Data["Models"].begin(); it < Data["Models"].end(); ++it)
+		{
+			objName = it.value().value("name", objName);
+			objFileName = it.value().value("filename", objFileName);
+			objFileName = "Resources/MEDIA/" + objFileName;
+
+
+			Model = new C3DModel_Obj();
+			ptrModel = new ModelParams(objName, objFileName, Model->load(objFileName.c_str(), getOpenGLRenderer()));
+			mModel.push_back(ptrModel);
+			//m_gameObjects.push_back(Model->load(objFileName.c_str(), getOpenGLRenderer()));
+		}
+	}
+	Grid = new CHexaGrid();
+	Grid->numCols = DataCols;
+	Grid->numRows = DataRows; 
+	Grid->cellSize = DataSize; 
+	Grid->pointy = DataCelltype;
 
 	// Texture
 	// Load texture file, create OpenGL Texture Object
@@ -82,6 +132,45 @@ void CAppHexaGrid::initialize() {
 		cout << "  " << MC_LEAVES_TEXTURE << endl;
 		return;
 	}
+
+	int instances_present = (int)Data.count("ModelInstances");
+	if (instances_present > 0 && (Data["ModelInstances"].type() == json::value_t::array))
+	{
+		std::string objName = "";
+		int row;
+		int col;
+		float scale;
+		float rotation[3];
+		json jrotation;
+		for (json::iterator it = Data["ModelInstances"].begin(); it < Data["ModelInstances"].end(); ++it)
+		{
+			objName = it.value().value("model", objName);
+			row = it.value().value("row", row);
+			col = it.value().value("column", col);
+			scale = it.value().value("scale", scale);
+			jrotation = it.value();
+			int i = 0;
+			for (json::iterator it2 = jrotation["rotation"].begin(); it2 < jrotation["rotation"].end(); ++it2)
+			{
+				rotation[i] = it2.value();
+				i++;
+			}
+			i = 0;
+			for (int i = 0; i < mModel.size(); i++)
+			{
+				if (objName == mModel[i]->ModelName)
+				{
+					Grid->SuperVector[row][col].mCellModel = mModel[i]->pModel;
+					Grid->SuperVector[row][col].mModelScale = scale;
+					Grid->SuperVector[row][col].mModelrotation[0] = rotation[0];
+					Grid->SuperVector[row][col].mModelrotation[1] = rotation[1];
+					Grid->SuperVector[row][col].mModelrotation[2] = rotation[2];
+				}
+			}
+		}
+	}
+
+	in_file.close();
 
 	m_initialized = true;
 

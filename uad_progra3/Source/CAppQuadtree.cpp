@@ -22,10 +22,40 @@ CAppQuadtree::~CAppQuadtree() {
 
 void CAppQuadtree::initialize() {
 
-	GridThread = CreateThread(NULL, 0, ThreadCreateGrid, NULL, 0, &ThreadID[0]);
+	GridThread = CreateThread(NULL, 0, ThreadCreateGrid, this, 0, &ThreadID[0]);
 	WaitForSingleObject(GridThread,INFINITE);
 
 	m_initialized = true;
+
+	int cols = Grid->numCols;
+	int rows = Grid->numRows;
+	float minX, maxX, minZ, maxZ;
+	minX = 0.0f; 
+	maxX = 0.0f;
+	minZ = 0.0f;
+	maxZ = 0.0f;
+
+	for (int i = 0; i < cols; ++i) {
+		for (int j = 0; j < rows; ++j) {
+			CHexa cell = Grid->getCell(i,j);
+			for (int k = 0; k < 6; ++k) {
+				CVector3 corner = cell.getCorner(k);
+				if (corner.X < minX) {
+					minX = corner.X;
+				}
+				if (corner.X > maxX) {
+					maxX = corner.X;
+				}
+				if (corner.Z < minZ) {
+					minZ = corner.Z;
+				}
+				if (corner.Z > maxZ) {
+					maxZ = corner.Z;
+				}
+			}
+		}
+	}
+
 }
 
 void CAppQuadtree::update(double delta_time) {
@@ -92,7 +122,7 @@ void CAppQuadtree::render() {
 		MathHelper::Matrix4 modelMatrix;
 
 		//Hexagono :D
-		if (m_hexaVertexArrayObject > 0 && Grid->m_numFacesHexa > 0) {
+		if (m_hexaVertexArrayObject == 0 && Grid->m_numFacesHexa > 0) {
 			//CVector3 pos2 = m_objectPosition;
 			//pos2 += CVector3(3.0f, 0.0f, 0.0f);
 			//MathHelper::Matrix4 modelMatrix2;
@@ -113,6 +143,43 @@ void CAppQuadtree::render() {
 bool CAppQuadtree::initializeMenu()
 {
 	return false;
+}
+
+
+//void CAppQuadtree::moveCamera(float dir) {
+	//if (getOpenGLRenderer() != nullptr) {
+	//	getOpenGLRenderer()->set;
+	//}
+	
+//}
+
+void CAppQuadtree::onArrowUp(int mods) { 
+
+	/*if (mods & KEY_MOD_SHIFT) {
+		moveCamera(-1.f);
+	}
+	else {
+		moveCamera(1.f);
+	}*/
+	std::cout << "arriba" << std::endl;
+
+}
+
+void CAppQuadtree::onArrowDown(int mods) {
+
+	std::cout << "abajo" << std::endl;
+
+}
+
+void CAppQuadtree::onArrowLeft(int mods) {
+
+	std::cout << "izq" << std::endl;
+}
+
+void CAppQuadtree::onArrowRight(int mods) {
+
+	std::cout << "der" << std::endl;
+
 }
 
 

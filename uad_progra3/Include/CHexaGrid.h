@@ -36,7 +36,7 @@ public:
 	//							FUNCIONES
 	// ---------------------------------------------------------------
 	void createHexaGeometry(COpenGLRenderer * const, unsigned int &, unsigned int &);
-
+	CHexa getCell(int, int);
 };
 
 #endif CHEXAGRID_H

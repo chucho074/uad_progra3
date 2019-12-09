@@ -11,6 +11,8 @@ using namespace std;
 
 //Constructor
 CHexaGrid::CHexaGrid() {
+	CHexa Cell;
+	CVector3 CoordVertex[6];
 	ifstream file_json("hexgrid_cfg.json", ifstream::binary);
 	file_json >> j;
 	numCols = j["HexGrid"]["numCols"];
@@ -30,7 +32,12 @@ CHexaGrid::CHexaGrid() {
 		for (int i = 0; i < numRows; i++) {
 			vector<CHexa>Temp;
 			for (int j = 0; j < numCols; j++) {
-				Temp.push_back(CHexa(Position));
+				for (int i = 0; i < 6; i++) {												//Introducir los datos con los angulos
+
+					CoordVertex[i] = Cell.calcPoint(Position, i, cellSize, pointy);		//Manda a llamar la funcion para crear los puntos con los grados
+					
+				}
+				Temp.push_back(CHexa(Position, CoordVertex));
 				Position.X += w;
 			}
 			if (i % 2) {
@@ -53,7 +60,12 @@ CHexaGrid::CHexaGrid() {
 		for (int i = 0; i < numCols; i++) {
 			vector<CHexa>Temp;
 			for (int j = 0; j < numRows; j++) {
-				Temp.push_back(CHexa(Position));
+				for (int i = 0; i < 6; i++) {												//Introducir los datos con los angulos
+
+					CoordVertex[i] = Cell.calcPoint(Position, i, cellSize, pointy);		//Manda a llamar la funcion para crear los puntos con los grados
+
+				}
+				Temp.push_back(CHexa(Position, CoordVertex));
 				Position.Z += h;
 			}
 			if (i % 2) {
@@ -74,7 +86,6 @@ CHexaGrid::~CHexaGrid() {
 	//Cerrar el archivo
 
 }
-
 
 //Geometry generation
 void CHexaGrid::createHexaGeometry(COpenGLRenderer * const render, unsigned int & shaderID, unsigned int & VAO) {
@@ -161,4 +172,11 @@ void CHexaGrid::createHexaGeometry(COpenGLRenderer * const render, unsigned int 
 		}
 	}
 
+}
+
+//
+CHexa CHexaGrid::getCell(int, int) {
+
+
+	return CHexa();
 }

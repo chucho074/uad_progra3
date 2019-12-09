@@ -14,12 +14,13 @@ public:
 	CQuadTree();
 	~CQuadTree();
 
+	void subdivide(AABB_2D bounds, std::vector<CHexa *> *cells);
 private:
 	int mLimitSubdiv;
 	CQuadTreeNode * mRoot;
-
+	
 
 };
 
 
-#endif AABB_H
+#endif CQuadTree_H
