@@ -3,6 +3,7 @@
 #define CQuadTree_H
 #include "Globals.h"
 #include "CQuadTreeNode.h"
+#include "CHexaGrid.h"
 
 /*
 TODO:
@@ -14,10 +15,10 @@ public:
 	CQuadTree();
 	~CQuadTree();
 
-	void subdivide(AABB_2D bounds, std::vector<CHexa *> *cells);
+	void subdivide(AABB_2D bounds, std::vector<CHexa *> cells, vector<vector<CHexa>>, int , int);
+	CQuadTreeNode * mRoot;
 private:
 	int mLimitSubdiv;
-	CQuadTreeNode * mRoot;
 	
 
 };

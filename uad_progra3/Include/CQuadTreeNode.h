@@ -17,21 +17,22 @@ public:
 	CQuadTreeNode();
 	~CQuadTreeNode();
 
-	void subdivide(int limit, AABB_2D parentBounds, std::vector<CHexa *> *cells);
-	void render(CCamera *cam, std::vector<CHexa *> result);
+	void subdivide(int, AABB_2D, std::vector<CHexa *>, vector<vector<CHexa>>, int, int);
+	void render(COpenGLRenderer *, unsigned int );
 
 	void setBounds(AABB_2D);
 	void getBounds(AABB_2D);
 	void setLimits(AABB_2D limits);
 
+	AABB_2D bounds;
 private:
 	CQuadTreeNode * h1;
 	CQuadTreeNode * h2;
 	CQuadTreeNode * h3;
 	CQuadTreeNode * h4;
 
-	AABB_2D bounds;
-	std::vector<CHexa *> mData;
+	vector<CHexa *> mData;
+	vector<vector<CHexa>> SV;
 
 };
 

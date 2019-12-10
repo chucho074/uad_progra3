@@ -3,6 +3,7 @@
 #define AABB_2D_H
 #include "Globals.h"
 #include "MathHelper.h"
+#include "COpenGLRenderer.h"
 
 /*
 TODO:
@@ -18,10 +19,17 @@ public:
 
 	void getCorners(CVector3 *);
 	void setCorners(CVector3 * inCorners);
-	bool pointsInside(CVector3[4]);
+	bool pointsInside(CVector3*);
 	CVector3 corners[4];		//Arreglar el Frustum.cpp
-private:
+	bool ElImportante(COpenGLRenderer *, unsigned int&);
 
+//private:
+	float mVertices[12];
+	float mVertexUV[4];
+	unsigned short mFaceIndex[6];
+	float mNormal[6];
+	unsigned short mFaceNormalIndex[6];
+	unsigned int mVAO;
 
 };
 

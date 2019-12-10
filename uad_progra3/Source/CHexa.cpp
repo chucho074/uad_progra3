@@ -59,5 +59,5 @@ CVector3 CHexa::getCorner(int k) {
 
 int CHexa::getTriangleCount() {
 
-	return 0;
+	return 4;
 }

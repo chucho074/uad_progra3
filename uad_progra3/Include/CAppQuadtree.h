@@ -6,6 +6,7 @@
 #include "CAppHexaGrid.h"
 #include "CQuadTreeNode.h"
 #include "CApp.h"
+#include "CQuadTree.h"
 
 /*
 TODO:
@@ -34,10 +35,10 @@ private:
 	void render();
 	bool initializeMenu();
 
-	
+	CQuadTree Tree;
 
 	CHexaGrid * Grid;
-	//CAppHexaGrid *x;
+	//CAppHexaGrid *HexaG;
 	DWORD ThreadID[2];
 	HANDLE GridThread;
 	float m_currentDeltaTime;

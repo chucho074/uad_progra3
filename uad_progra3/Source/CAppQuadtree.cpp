@@ -22,8 +22,11 @@ CAppQuadtree::~CAppQuadtree() {
 
 void CAppQuadtree::initialize() {
 
-	GridThread = CreateThread(NULL, 0, ThreadCreateGrid, this, 0, &ThreadID[0]);
-	WaitForSingleObject(GridThread,INFINITE);
+	//GridThread = CreateThread(NULL, 0, ThreadCreateGrid, this, 0, &ThreadID[0]);
+	//WaitForSingleObject(GridThread,INFINITE);
+
+	Grid = new CHexaGrid();
+	Grid->createHexaGeometry(getOpenGLRenderer(), m_colorModelShaderId, m_hexaVertexArrayObject);
 
 	m_initialized = true;
 
@@ -55,6 +58,21 @@ void CAppQuadtree::initialize() {
 			}
 		}
 	}
+	AABB_2D bordes;
+	CVector3 x[4];
+	x[0] = CVector3(minX, 0.0f, minZ);
+	x[1] = CVector3(minX, 0.0f, minZ);
+	x[2] = CVector3(minX, 0.0f, minZ);
+	x[3] = CVector3(minX, 0.0f, minZ);
+	bordes.setCorners(x);
+	vector<CHexa*> caca;
+	Tree.subdivide(bordes, caca ,Grid->SuperVector, 5, 4);
+	m_colorModelShaderId = getOpenGLRenderer()->getShaderProgramID(SHADER_PROGRAM_COLOR_OBJECT);
+	
+	if (!Tree.mRoot->bounds.ElImportante(getOpenGLRenderer(), m_colorModelShaderId)) {
+		cout << "Can´t complete the geometry charge" << endl;
+	}
+
 
 }
 
@@ -121,23 +139,24 @@ void CAppQuadtree::render() {
 		double degresRotation = 0.0;
 		MathHelper::Matrix4 modelMatrix;
 
-		//Hexagono :D
-		if (m_hexaVertexArrayObject == 0 && Grid->m_numFacesHexa > 0) {
-			//CVector3 pos2 = m_objectPosition;
-			//pos2 += CVector3(3.0f, 0.0f, 0.0f);
-			//MathHelper::Matrix4 modelMatrix2;
-			for (int i = 0; i < Grid->numRows; i++) {
-				for (int j = 0; j < Grid->numCols; j++) {
-					modelMatrix = MathHelper::SimpleModelMatrixRotationTranslation((float)degresRotation, Grid->SuperVector[i][j].centerX);
-					getOpenGLRenderer()->renderObject(&m_colorModelShaderId, &m_hexaVertexArrayObject, &noTexture, Grid->m_numFacesHexa, color, &modelMatrix, COpenGLRenderer::EPRIMITIVE_MODE::TRIANGLES, false);
+		////Hexagono :D
+		//if (m_hexaVertexArrayObject == 0 && Grid->m_numFacesHexa > 0) {
+		//	//CVector3 pos2 = m_objectPosition;
+		//	//pos2 += CVector3(3.0f, 0.0f, 0.0f);
+		//	//MathHelper::Matrix4 modelMatrix2;
+		//	for (int i = 0; i < Grid->numRows; i++) {
+		//		for (int j = 0; j < Grid->numCols; j++) {
+		//			modelMatrix = MathHelper::SimpleModelMatrixRotationTranslation((float)degresRotation, Grid->SuperVector[i][j].centerX);
+		//			getOpenGLRenderer()->renderObject(&m_colorModelShaderId, &m_hexaVertexArrayObject, &noTexture, Grid->m_numFacesHexa, color, &modelMatrix, COpenGLRenderer::EPRIMITIVE_MODE::TRIANGLES, false);
 
-				}
-			}
-			// Render Hexa in the first position, using the color shader
+		//		}
+		//	}
+		//	// Render Hexa in the first position, using the color shader
 
-		}
+		//}
 		// =================================
 	}
+	Tree.mRoot->render(getOpenGLRenderer(), m_colorModelShaderId);
 }
 
 bool CAppQuadtree::initializeMenu()
